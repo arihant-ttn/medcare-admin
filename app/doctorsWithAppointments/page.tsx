@@ -51,7 +51,7 @@ const Page = () => {
           {doctors.length > 0 ? (
             doctors.map((doctor) => (
               <div key={doctor.id} className={styles.card}>
-                <Link key={doctor.id} href={`./doctor-profile/${doctor.id}`}>
+                
                   <div>
                     <Image
                       src="/Frame.png"
@@ -62,7 +62,7 @@ const Page = () => {
                     />
                     <h3>{doctor.name}</h3>
                   </div>
-                </Link>
+                
                 <div className={styles.details}>
                   <div className={styles.rateSpecial}>
                     <p>
