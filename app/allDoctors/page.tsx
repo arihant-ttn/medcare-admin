@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "../../styles/allDoctors.module.css";
 import { useRouter } from "next/navigation";
-import MyComponent from '../../components/toast'; 
+
 interface Doctor {
   id: number;
   docid:number;
@@ -37,10 +37,10 @@ const Page = () => {
   useEffect(() => {
     fetchDoctors();
   }, []);
-  // ✅ Fetch Doctors on Page Load
+  //  Fetch Doctors on Page Load
   const fetchDoctors = async () => {
     try {
-      const res = await fetch("http://localhost:3000/listDoctors");
+      const res = await fetch("http://localhost:3000/manageDoctors/getAllDoctors");
         console.log(res);
       if (!res.ok) {
         throw new Error("Failed to fetch doctors");
@@ -48,13 +48,13 @@ const Page = () => {
 
       const data = await res.json();
       console.log("data", data);
-      setDoctors(data.doctors);
+      setDoctors(data.data);
     } catch (error) {
       console.error("Error fetching doctors:", error);
     }
   };
 
-  // 🎯 Fetch on Component Mount
+  //  Fetch on Component Mount
   useEffect(() => {
     fetchDoctors();
   }, []);
@@ -62,12 +62,18 @@ const Page = () => {
   return (
     <div className={styles['container']}>
       <div className={styles['header']}>Medcare Admin</div>
+
+
       <h1>Manage Doctors</h1>
+      <Link href = {'/addDoctors'}> <div className={styles['AddDoctor']}>
+        Add Doctor +
+      </div></Link>
+      
         <div className={styles.doctorsList}>
           {doctors.length > 0 ? (
             doctors.map((doctor) => (
               <div key={doctor.id} className={styles.card}>
-                <Link key={doctor.id} href={`./doctor-profile/${doctor.id}`}>
+               
                   <div>
                     <Image
                       src={doctor.image}
@@ -78,7 +84,7 @@ const Page = () => {
                     />
                     <h3>{doctor.name}</h3>
                   </div>
-                </Link>
+               
                 <div className={styles.details}>
                   <div className={styles.rateSpecial}>
                     <p>

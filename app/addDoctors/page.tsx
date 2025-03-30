@@ -3,17 +3,17 @@
 import { useState, ChangeEvent, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import styles from "../../styles/addDoctor.module.css";
-import MyComponent from '../../components/toast';
+import CustomToast from "@/components/toast";
 interface DoctorFormData {
   name: string;
   specialization: string;
   experience: string;
   gender: "Male" | "Female";
   qualification: string;
-  diseases: string[];
+  diseases: string;
   description: string;
   image: File | null;
-  reviews: string[];
+  reviews: string;
 }
 
 
@@ -25,20 +25,20 @@ const AddDoctorForm: React.FC = () => {
     experience: "",
     gender: "Male",
     qualification: "",
-    diseases: [],
+    diseases: "",
     description: "",
     image: null,
-    reviews: [],
+    reviews: "",
   });
   const API_URL = "http://localhost:3000/manageDoctors";
 
-  // ✅ Add Doctor API using fetch
+  //  Add Doctor API using fetch
   const addDoctor = async (formData: DoctorFormData) => {
     try {
-      // ✅ Create FormData object
+      //  Create FormData object
       const data = new FormData();
   
-      // ✅ Append form data to FormData object
+      //  Append form data to FormData object
       Object.keys(formData).forEach((key) => {
         const value = (formData as any)[key];
   
@@ -52,16 +52,14 @@ const AddDoctorForm: React.FC = () => {
         }
        
       });
-      data.append("diseases", JSON.stringify(formData.diseases));
-      data.append("reviews", JSON.stringify(formData.reviews));
-
-      // ✅ Send API request with FormData
+      
+      //  Send API request with FormData
       const response = await fetch(`${API_URL}/add`, {
         method: "POST",
         body: data, // FormData automatically sets Content-Type to multipart/form-data
       });
   
-      // ✅ Check if response is OK
+      //  Check if response is OK
       if (!response.ok) {
         throw new Error(`Error adding doctor: ${response.statusText}`);
       }
@@ -75,7 +73,7 @@ const AddDoctorForm: React.FC = () => {
   };
   
   
-  // ✅ Handle Input Change
+  //  Handle Input Change
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value, type, files } = e.target as HTMLInputElement;
 
@@ -84,9 +82,6 @@ const AddDoctorForm: React.FC = () => {
       setFormData({ ...formData, [name]: files[0] });
     }
     // Handle array fields separately (diseases and reviews)
-    else if (name === "diseases" || name === "reviews") {
-      setFormData({ ...formData, [name]: value.split(",").map((item) => item.trim()) });
-    }
     // Default handling for other fields
     else {
       setFormData({ ...formData, [name]: value });
@@ -103,12 +98,14 @@ const AddDoctorForm: React.FC = () => {
 await addDoctor(formData);
 setLoading(false);
 
-      // ✅ Prepare the form data for submission as FormData
+<CustomToast message="Doctor Added Successfully" type= "success"/>
+      //  Prepare the form data for submission as FormData
      
   
-      alert("Doctor added successfully!");
+      // alert("Doctor added successfully!");
+
       router.push('/allDoctors');
-    //   <MyComponent message="Appointment booked successfully!" />
+
         
       // Reset form after submission
       setFormData({
@@ -117,10 +114,10 @@ setLoading(false);
         experience: "",
         gender: "Male",
         qualification: "",
-        diseases: [],
+        diseases: "",
         description: "",
         image: null,
-        reviews: [],
+        reviews: "",
       });
       const fileInput = document.getElementById("image") as HTMLInputElement;
         if (fileInput) {

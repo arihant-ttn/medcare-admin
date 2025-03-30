@@ -22,11 +22,16 @@
     padding: 20px;
     
   }
-  
+  .container{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+  }
   
   .card {
     
-    width: 30%;
+    width: 22%;
+    
     background: #F8FCF9;
     border-radius: 10px;
     padding: 15px;
@@ -35,7 +40,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap:40px;
+    gap:20px;
     text-align: center;
     transition: 0.3s ease-in-out;
     height: 60%;
@@ -68,6 +73,7 @@
   
   .card .image {
     border-radius: 50%;
+    
   }
   
   
@@ -103,4 +109,50 @@
     align-items: center;
     gap:10px;
  } 
+ /* Status styles */
+.approvedStatus {
+  color: green;
+  font-weight: bold;
+}
+
+.declinedStatus {
+  color: red;
+  font-weight: bold;
+}
+
+.pendingStatus {
+  color: orange;
+  font-weight: bold;
+}
+
+/*  Disable Button after Approval/Decline */
+.disabledBtn {
+  background-color: #f0f0f0;
+  color: #999;
+  border: none;
+  padding: 6px 12px;
+  cursor: not-allowed;
+}
+
  
+.AddDoctor{
+  width: 200px;
+  height: 40px;
+  border-radius:5px ;
+  text-align: center;
+  color:white;
+  font-size: 20px;
+  padding: 8px;
+  margin: 10px;
+  background-color: #1C4A2A;
+  float:right;
+}
+.container > Link{
+  width: 200px;
+  display: inline-block;
+  
+}
+.doctorsList{
+  display: flex;
+  flex-wrap: wrap;
+}

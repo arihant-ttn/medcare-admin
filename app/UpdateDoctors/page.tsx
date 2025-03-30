@@ -1,38 +1,37 @@
 "use client";
 
 import { useState, ChangeEvent, FormEvent, useEffect } from "react";
-import styles from "../../styles/updateDoctors.module.css"; // ✅ Import External CSS
+import styles from "../../styles/updateDoctors.module.css"; //  Import External CSS
 import { useSearchParams } from "next/navigation";
-import MyComponent from '../../components/toast';
+
 interface Doctor {
   id: string;
   qualification: string;
-  diseases: string[];
+  diseases: string;
   rating: number;
   image: string;
-  reviews: string[];
+  reviews: string;
   description: string;
 }
 
 const UpdateDoctorForm: React.FC = () => {
-    const searchParams = useSearchParams();
-    const doctorId = searchParams.get("id");
-    
+  const searchParams = useSearchParams();
+  const doctorId = searchParams.get("id");
 
   const [formData, setFormData] = useState<Doctor>({
-    id: doctorId,
+    id: doctorId || "",
     qualification: "",
-    diseases: [],
+    diseases: "", // Change to string
     rating: 0,
     image: "",
-    reviews: [],
+    reviews: "", // Change to string
     description: "",
   });
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const API_URL = "http://localhost:3000/manageDoctors/update";
 
-  // ✅ Fetch Doctor Data
+  //  Fetch Doctor Data
   useEffect(() => {
     const fetchDoctorData = async () => {
       try {
@@ -49,7 +48,7 @@ const UpdateDoctorForm: React.FC = () => {
     fetchDoctorData();
   }, [doctorId]);
 
-  // ✅ Handle Input Changes
+  //  Handle Input Changes
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -60,20 +59,16 @@ const UpdateDoctorForm: React.FC = () => {
     });
   };
 
-  // ✅ Handle Array Inputs (Diseases, Reviews)
-  const handleArrayChange = (e: ChangeEvent<HTMLInputElement>, field: string) => {
-    const values = e.target.value.split(",").map((item) => item.trim());
-    setFormData({ ...formData, [field]: values });
-  };
+  //  Handle Array Inputs (Diseases, Reviews)
 
-  // ✅ Handle File Upload
+  //  Handle File Upload
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setSelectedFile(e.target.files[0]);
     }
   };
 
-  // ✅ Upload Image to Cloudinary
+  //  Upload Image to Cloudinary
   const uploadImage = async () => {
     if (!selectedFile) return formData.image;
 
@@ -82,10 +77,13 @@ const UpdateDoctorForm: React.FC = () => {
     data.append("upload_preset", "doctor_images");
 
     try {
-      const res = await fetch("https://api.cloudinary.com/v1_1/diorqjb4l/image/upload", {
-        method: "POST",
-        body: data,
-      });
+      const res = await fetch(
+        "https://api.cloudinary.com/v1_1/diorqjb4l/image/upload",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
       const result = await res.json();
       return result.secure_url;
     } catch (error) {
@@ -94,7 +92,7 @@ const UpdateDoctorForm: React.FC = () => {
     }
   };
 
-  // ✅ Handle Form Submission
+  //  Handle Form Submission
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
@@ -141,20 +139,18 @@ const UpdateDoctorForm: React.FC = () => {
             value={formData.qualification}
             onChange={handleChange}
             className={styles.input}
-           
           />
         </div>
 
         {/* Diseases */}
         <div className={styles.formGroup}>
-          <label className={styles.label}>Diseases Treated (Comma Separated)</label>
+          <label className={styles.label}>Diseases Treated</label>
           <input
             type="text"
             name="diseases"
-            value={formData.diseases.join(", ")}
-            onChange={(e) => handleArrayChange(e, "diseases")}
+            value={formData.diseases} // No array handling
+            onChange={handleChange}
             className={styles.input}
-            
           />
         </div>
 
@@ -169,7 +165,6 @@ const UpdateDoctorForm: React.FC = () => {
             max="5"
             onChange={handleChange}
             className={styles.input}
-            
           />
         </div>
 
@@ -187,12 +182,12 @@ const UpdateDoctorForm: React.FC = () => {
 
         {/* Reviews */}
         <div className={styles.formGroup}>
-          <label className={styles.label}>Reviews (Comma Separated)</label>
+          <label className={styles.label}>Reviews</label>
           <input
             type="text"
             name="reviews"
-            value={formData.reviews.join(", ")}
-            onChange={(e) => handleArrayChange(e, "reviews")}
+            value={formData.reviews} // No array handling
+            onChange={handleChange}
             className={styles.input}
           />
         </div>

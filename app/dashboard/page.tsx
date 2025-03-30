@@ -14,9 +14,9 @@ const page = () => {
         <h1>Appointments</h1>
       </div>
       </Link>
-      <Link href = {'/addDoctors'}>
+      <Link href = {'/allDoctors'}>
       <div className={styles['Add-Doctors']}>
-      <h1>Add New Doctors</h1>     
+      <h1>Manage Doctors</h1>     
       </div>
       </Link>
       </div>
@@ -24,5 +24,5 @@ const page = () => {
     </div>
   )
 }
-
+  
 export default page
