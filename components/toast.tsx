@@ -23,11 +23,7 @@ const CustomToast: React.FC<ToastProps> = ({
 
   if (!visible) return null;
 
-  return (
-    <div className={`${styles.toast} ${styles[type]}`}>
-      {message}
-    </div>
-  );
+  return <div className={`${styles.toast} ${styles[type]}`}>{message}</div>;
 };
 
 export default CustomToast;

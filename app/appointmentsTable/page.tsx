@@ -21,7 +21,7 @@ const DoctorDashboard = () => {
 
   const docId = searchParams.get("id");
 
-  // ✅ Fetch Appointments
+  //  Fetch Appointments
   const fetchAppointments = async () => {
     try {
       const res = await fetch(`http://localhost:3000/doctor/${docId}`);
@@ -34,7 +34,7 @@ const DoctorDashboard = () => {
     }
   };
 
-  // ✅ Update Status Locally in State
+  //  Update Status Locally in State
   const updateStatus = async (id: number, status: string) => {
     try {
       const res = await fetch(`http://localhost:3000/updateStatus/${id}`, {
@@ -45,7 +45,7 @@ const DoctorDashboard = () => {
 
       const data = await res.json();
       if (data.success) {
-        // ✅ Update status locally without refetching
+        //  Update status locally without refetching
         setAppointments((prevAppointments) =>
           prevAppointments.map((appointment) =>
             appointment.id === id ? { ...appointment, status } : appointment
@@ -110,13 +110,17 @@ const DoctorDashboard = () => {
                     {appointment.status === "Pending" && (
                       <>
                         <button
-                          onClick={() => updateStatus(appointment.id, "Approved")}
+                          onClick={() =>
+                            updateStatus(appointment.id, "Approved")
+                          }
                           className={styles.approveBtn}
                         >
                           Approve
                         </button>
                         <button
-                          onClick={() => updateStatus(appointment.id, "Declined")}
+                          onClick={() =>
+                            updateStatus(appointment.id, "Declined")
+                          }
                           className={styles.declineBtn}
                         >
                           Decline
